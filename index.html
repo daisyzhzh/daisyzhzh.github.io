@@ -196,17 +196,9 @@ function essayCards(list){
 }
 
 function home(){
-  const done = COURSES.flatMap(c=>c.units.flatMap(u=>u.items)).filter(i=>i.done).length;
   return `<section class="hero">
-    <span class="label">Independent study · ${esc(TERM.name)}</span>
-    <h1>A curriculum I wrote for <em>myself</em>.</h1>
-    <p class="lede">No grades, no deadlines. These are the subjects I've chosen to study on my own, the syllabus I've built for each, and what I think about them once I've done the reading.</p>
-    <div class="term">
-      <div><span class="label">Courses</span><strong>${COURSES.length}</strong></div>
-      <div><span class="label">Study goal</span><strong>${esc(TERM.hoursGoal)}</strong></div>
-      <div><span class="label">Readings done</span><strong>${done}</strong></div>
-      <div><span class="label">Reflections</span><strong>${REFLECTIONS.length}</strong></div>
-    </div>
+    <h1>wherever <em>curiosity</em> leads</h1>
+    <p class="lede">When I graduated college, I remember celebrating the end, ready to never have to write an essay, stress over an exam, or lose sleep over some group project ever again. Now, years later, I find myself reminiscing on what it was like to constantly be learning, reflecting, and questioning. Hence my personal curriculum was born. My special interests lie within technology, film, and China-US relations.</p>
   </section>
   <section>
     <div class="section-head"><h2>Course catalog</h2><span class="label">Select a course for its syllabus</span></div>
