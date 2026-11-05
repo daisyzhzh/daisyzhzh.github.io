@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daisy's Open Syllabus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0}
+/* Layout: a university course catalog — catalog rows on the home page, a syllabus per course, essays set like a journal */
+:root{
+  --bg:#F3F5F2; --paper:#FBFCFA; --ink:#18212B; --muted:#5C6A66; --rule:#D6DDD8;
+  --accent:#2E5E4E; --accent-soft:#E1ECE6; --mark:#F2D95C;
+  --display:"Young Serif", Georgia, serif;
+  --body:"Public Sans", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121816; --paper:#18201D; --ink:#E6ECE8; --muted:#97A6A0; --rule:#2B3631;
+  --accent:#86C2A8; --accent-soft:#1F3029; --mark:#8C7A22; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121816; --paper:#18201D; --ink:#E6ECE8; --muted:#97A6A0; --rule:#2B3631;
+  --accent:#86C2A8; --accent-soft:#1F3029; --mark:#8C7A22; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:880px;margin:0 auto;padding-block:40px 80px;display:flex;flex-direction:column;gap:48px}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(2.2rem,6vw,3.4rem)}
+h2{font-size:1.6rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.label{font:500 .72rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.code{font:500 .85rem/1 var(--mono);color:var(--accent);font-variant-numeric:tabular-nums}
+
+/* masthead */
+.mast{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:14px}
+.mast a{text-decoration:none;color:var(--ink);font-family:var(--display);font-size:1.15rem}
+.mast nav{display:flex;gap:20px}
+.mast nav a{font:500 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mast nav a[aria-current]{color:var(--accent)}
+
+.hero{display:flex;flex-direction:column;gap:18px}
+.hero p.lede{font-size:1.15rem;max-width:58ch;color:var(--muted)}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--mark) 62%)}
+.term{display:flex;gap:28px;flex-wrap:wrap}
+.term div{display:flex;flex-direction:column;gap:4px}
+.term strong{font:500 1.05rem var(--mono);font-variant-numeric:tabular-nums}
+
+/* catalog */
+.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.catalog{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.catalog li{border-bottom:1px solid var(--rule)}
+.catalog a{display:grid;grid-template-columns:96px 1fr auto;gap:6px 20px;padding:18px 4px;text-decoration:none;color:var(--ink);align-items:baseline}
+.catalog a:hover{background:var(--paper)}
+.catalog .t{font-family:var(--display);font-size:1.25rem}
+.catalog .d{grid-column:2/3;color:var(--muted);font-size:.95rem;min-width:0}
+.status{font:500 .7rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:3px;border:1px solid var(--rule);white-space:nowrap;color:var(--muted)}
+.status.active{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.status.next{border-style:dashed}
+.sample{font:500 .68rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--muted);padding:2px 6px;border-radius:3px;margin-left:8px;vertical-align:middle}
+@media (max-width:560px){
+  .catalog a{grid-template-columns:1fr auto}
+  .catalog .code{grid-column:1/2}
+  .catalog .t,.catalog .d{grid-column:1/3}
+}
+
+/* reflections list */
+.essays{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.essay-card{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink)}
+.essay-card:hover{border-color:var(--accent)}
+.essay-card p{color:var(--muted);font-size:.95rem}
+
+/* syllabus */
+.syl-head{display:flex;flex-direction:column;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:22px}
+.syl-head p{max-width:62ch;color:var(--muted);font-size:1.08rem}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.meta div{display:flex;flex-direction:column;gap:4px}
+.why{border-left:3px solid var(--mark);padding:4px 0 4px 18px;max-width:62ch}
+.units{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+.unit{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--rule)}
+.unit > div{min-width:0;display:flex;flex-direction:column;gap:10px}
+.unit ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.unit li{display:grid;grid-template-columns:20px 1fr;gap:8px;font-size:.96rem}
+.unit li .box{font-family:var(--mono);color:var(--accent)}
+.unit li.done span:last-child{color:var(--muted);text-decoration:line-through}
+@media (max-width:560px){.unit{grid-template-columns:1fr;gap:6px}}
+
+/* essay */
+article{display:flex;flex-direction:column;gap:22px;max-width:66ch}
+article .prose{display:flex;flex-direction:column;gap:18px;font-size:1.08rem;line-height:1.75}
+article .prose h3{margin-top:10px}
+article blockquote{margin:0;padding-left:18px;border-left:3px solid var(--accent);font-family:var(--display);font-size:1.2rem;color:var(--ink)}
+.prompt{background:var(--accent-soft);border-radius:4px;padding:16px 18px;font-size:.98rem}
+
+.back{font:500 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+footer{border-top:1px solid var(--rule);padding-top:16px;color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:no-preference){main>*{animation:rise .35s ease both}}
+@keyframes rise{from{transform:translateY(6px)}to{transform:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="mast">
+    <a href="#home">Daisy's Open Syllabus</a>
+    <nav aria-label="Sections">
+      <a href="#home" data-nav="home">Catalog</a>
+      <a href="#reflections" data-nav="reflections">Reflections</a>
+      <a href="#about" data-nav="about">About</a>
+    </nav>
+  </header>
+  <main id="view"></main>
+  <footer>An independent curriculum, kept in public. Last updated November 2026.</footer>
+</div>
+
+<script>
+/* ---------- CONTENT: edit everything here ---------- */
+const TERM = {name:"Winter 2026–27", courses:3, hoursGoal:"5 hrs / week"};
+
+const COURSES = [
+  {
+    id:"mandarin", code:"MAND 210", title:"Reading Mandarin",
+    status:"active", sample:false,
+    blurb:"Moving from conversation to reading: getting comfortable with real Chinese-language text.",
+    why:"I can hold a conversation with my tutor, but reading is where I fall behind. I want to read signs, menus and short articles without reaching for a dictionary every line.",
+    meta:{Format:"Weekly tutor sessions + self-study", Started:"2026", Load:"3 hrs / week"},
+    units:[
+      {n:"Unit 1", title:"Speaking & listening upkeep", desc:"Keep the spoken foundation strong while the focus shifts to reading.",
+        items:[{t:"Weekly conversation session with tutor",done:true},{t:"Keep a running list of new vocabulary from sessions",done:false}]},
+      {n:"Unit 2", title:"A structured reading course", desc:"Find a reading-focused course in a format I like and work through it.",
+        items:[{t:"Shortlist reading courses",done:false},{t:"Request learning & development funding",done:false},{t:"Complete first module",done:false}]},
+      {n:"Unit 3", title:"Reading in the wild", desc:"Apply it to Chinese-language material I'd actually choose to read.",
+        items:[{t:"One graded reader",done:false},{t:"A short article each week",done:false},{t:"Write a reflection on what got easier",done:false}]}
+    ]
+  },
+  {
+    id:"philosophy", code:"PHIL 101", title:"Introduction to Ethics",
+    status:"next", sample:true,
+    blurb:"Sample course. Replace with your own: how should I live, and how would I know?",
+    why:"Sample text. Write a few sentences about why this topic pulls at you.",
+    meta:{Format:"Reading + written responses", Started:"Not yet", Load:"2 hrs / week"},
+    units:[
+      {n:"Week 1–2", title:"Ancient answers", desc:"Sample unit.", items:[{t:"Aristotle, Nicomachean Ethics (Books I–II)",done:false},{t:"Epictetus, Enchiridion",done:false}]},
+      {n:"Week 3–4", title:"Duty and consequences", desc:"Sample unit.", items:[{t:"Kant, Groundwork (selections)",done:false},{t:"Mill, Utilitarianism",done:false}]}
+    ]
+  },
+  {
+    id:"history", code:"HIST 150", title:"A History of Cities",
+    status:"planned", sample:true,
+    blurb:"Sample course. Replace with your own: how cities are built, and what they do to the people in them.",
+    why:"Sample text.",
+    meta:{Format:"Books + walking notes", Started:"Not yet", Load:"2 hrs / week"},
+    units:[
+      {n:"Part I", title:"Foundations", desc:"Sample unit.", items:[{t:"Jacobs, The Death and Life of Great American Cities",done:false}]}
+    ]
+  }
+];
+
+const REFLECTIONS = [
+  {
+    id:"template", course:"mandarin", date:"Draft", sample:true,
+    title:"What I Notice When I Read Slowly",
+    dek:"A template for your first deep dive. Replace the prompts with your own writing.",
+    body:[
+      ["p","Open with the moment that made you want to write this: a sentence you finally understood, an idea that changed how you see something, or a question you can't put down."],
+      ["h","What I expected"],
+      ["p","Describe what you thought this topic would be like before you started."],
+      ["h","What actually happened"],
+      ["p","The surprises, the hard parts, and the parts that clicked."],
+      ["q","Pull out one line, yours or a source's, that sums up the shift."],
+      ["h","What I'm carrying forward"],
+      ["p","How this changes what you read or study next."]
+    ]
+  }
+];
+/* ---------- END CONTENT ---------- */
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const statusLabel = {active:"In progress", next:"Up next", planned:"Planned", done:"Completed"};
+const course = id => COURSES.find(c=>c.id===id);
+const sampleTag = x => x.sample ? '<span class="sample">Sample</span>' : '';
+
+function essayCards(list){
+  if(!list.length) return '<p class="label">No reflections yet.</p>';
+  return '<div class="essays">'+list.map(r=>{
+    const c=course(r.course);
+    return `<a class="essay-card" href="#essay-${r.id}">
+      <span class="label">${esc(c?c.code:"")} · ${esc(r.date)}</span>
+      <h3>${esc(r.title)}${sampleTag(r)}</h3><p>${esc(r.dek)}</p></a>`;}).join('')+'</div>';
+}
+
+function home(){
+  const done = COURSES.flatMap(c=>c.units.flatMap(u=>u.items)).filter(i=>i.done).length;
+  return `<section class="hero">
+    <span class="label">Independent study · ${esc(TERM.name)}</span>
+    <h1>A curriculum I wrote for <em>myself</em>.</h1>
+    <p class="lede">No grades, no deadlines. These are the subjects I've chosen to study on my own, the syllabus I've built for each, and what I think about them once I've done the reading.</p>
+    <div class="term">
+      <div><span class="label">Courses</span><strong>${COURSES.length}</strong></div>
+      <div><span class="label">Study goal</span><strong>${esc(TERM.hoursGoal)}</strong></div>
+      <div><span class="label">Readings done</span><strong>${done}</strong></div>
+      <div><span class="label">Reflections</span><strong>${REFLECTIONS.length}</strong></div>
+    </div>
+  </section>
+  <section>
+    <div class="section-head"><h2>Course catalog</h2><span class="label">Select a course for its syllabus</span></div>
+    <ul class="catalog">${COURSES.map(c=>`<li><a href="#course-${c.id}">
+      <span class="code">${esc(c.code)}</span>
+      <span class="t">${esc(c.title)}${sampleTag(c)}</span>
+      <span class="status ${c.status}">${statusLabel[c.status]}</span>
+      <span class="d">${esc(c.blurb)}</span></a></li>`).join('')}</ul>
+  </section>
+  <section>
+    <div class="section-head"><h2>Latest reflections</h2><a class="back" href="#reflections">All reflections →</a></div>
+    ${essayCards(REFLECTIONS.slice(0,3))}
+  </section>`;
+}
+
+function syllabus(c){
+  const refl = REFLECTIONS.filter(r=>r.course===c.id);
+  return `<a class="back" href="#home">← Catalog</a>
+  <section class="syl-head">
+    <span class="code">${esc(c.code)} · <span class="status ${c.status}">${statusLabel[c.status]}</span>${sampleTag(c)}</span>
+    <h1>${esc(c.title)}</h1>
+    <p>${esc(c.blurb)}</p>
+    <div class="meta">${Object.entries(c.meta).map(([k,v])=>`<div><span class="label">${esc(k)}</span><span>${esc(v)}</span></div>`).join('')}</div>
+  </section>
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <span class="label">Why I'm taking this</span>
+    <p class="why">${esc(c.why)}</p>
+  </section>
+  <section>
+    <div class="section-head"><h2>Syllabus</h2></div>
+    <div class="units">${c.units.map(u=>`<div class="unit">
+      <span class="code">${esc(u.n)}</span>
+      <div><h3>${esc(u.title)}</h3><p style="color:var(--muted)">${esc(u.desc)}</p>
+      <ul>${u.items.map(i=>`<li class="${i.done?'done':''}"><span class="box" aria-hidden="true">${i.done?'■':'□'}</span><span>${esc(i.t)}${i.done?' <span class="label">· done</span>':''}</span></li>`).join('')}</ul></div>
+    </div>`).join('')}</div>
+  </section>
+  <section><div class="section-head"><h2>Reflections from this course</h2></div>${essayCards(refl)}</section>`;
+}
+
+function essay(r){
+  const c=course(r.course);
+  const body = r.body.map(([k,t])=> k==="h"?`<h3>${esc(t)}</h3>`: k==="q"?`<blockquote>${esc(t)}</blockquote>`:`<p>${esc(t)}</p>`).join('');
+  return `<a class="back" href="#reflections">← Reflections</a>
+  <article>
+    <span class="label">${c?`<a href="#course-${c.id}">${esc(c.code)} ${esc(c.title)}</a>`:''} · ${esc(r.date)}${sampleTag(r)}</span>
+    <h1>${esc(r.title)}</h1>
+    <p style="font-size:1.15rem;color:var(--muted)">${esc(r.dek)}</p>
+    ${r.sample?'<p class="prompt">This is a writing template. Each paragraph is a prompt to replace with your own reflection.</p>':''}
+    <div class="prose">${body}</div>
+  </article>`;
+}
+
+function reflections(){
+  return `<section class="hero"><span class="label">Deep dives</span><h1>Reflections</h1>
+    <p class="lede">Longer writing on what I've learned, what surprised me, and what I'm still working out.</p></section>
+    ${essayCards(REFLECTIONS)}`;
+}
+
+function about(){
+  return `<article><span class="label">About</span><h1>Why an open syllabus</h1>
+  <div class="prose">
+    <p>School decided what I studied for a long time. This is the opposite: a curriculum built around what I'm actually curious about, at whatever pace real life allows.</p>
+    <p>Each course has a reason for being here, a reading list, and a place to check things off. When something sticks, I write about it.</p>
+    <p>I'm Daisy. I live in New York and build data and mapping tools by day.</p>
+  </div></article>`;
+}
+
+function render(){
+  const h = (location.hash||"#home").slice(1);
+  let html, nav="home";
+  if(h.startsWith("course-") && course(h.slice(7))) html=syllabus(course(h.slice(7)));
+  else if(h.startsWith("essay-") && REFLECTIONS.find(r=>r.id===h.slice(6))){ html=essay(REFLECTIONS.find(r=>r.id===h.slice(6))); nav="reflections"; }
+  else if(h==="reflections"){ html=reflections(); nav="reflections"; }
+  else if(h==="about"){ html=about(); nav="about"; }
+  else html=home();
+  $("#view").innerHTML = `<div style="display:flex;flex-direction:column;gap:44px">${html}</div>`;
+  document.querySelectorAll("[data-nav]").forEach(a=>a.toggleAttribute("aria-current", a.dataset.nav===nav));
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange",render);
+render();
+</script>
+</body>
+</html>
