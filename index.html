@@ -8,23 +8,21 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 body{margin:0}
-/* Palette: Chinese ink-wash painting (rice paper, teal mountain wash, ink, vermilion sun). Layout: full-width intro, then three ruled columns (reading · learning · tally) like a college bulletin board; stacks on phones */
+/* Palette: Chinese ink-wash painting on xuan paper (layered SVG noise: grain, fibers, mottling) (rice paper, teal mountain wash, ink, vermilion sun). Layout: full-width intro, then three ruled columns (reading · learning · tally) like a college bulletin board; stacks on phones */
 :root{
   --bg:#F2EBE3; --paper:#F8F4EF; --ink:#211D1A; --muted:#6E655D; --rule:#DED3C8;
   --accent:#276F6C; --accent-soft:#D9E7E3; --mark:#E2462C; --wash:#EFC8BA;
+  --paper-tex:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.32 0 0 0 0 0.24 0.200 0 0 0 -0.065'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.03' numOctaves='4' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.32 0 0 0 0 0.24 1.100 0 0 0 -0.600'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1024' height='1024'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.003' numOctaves='4' seed='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.32 0 0 0 0 0.24 0.200 0 0 0 -0.060'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
   --display:"Schibsted Grotesk", "Public Sans", system-ui, sans-serif;
   --body:"Public Sans", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1A1817; --paper:#221F1D; --ink:#EDE5DC; --muted:#A89E94; --rule:#38312C;
-  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; --wash:#5A3027; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1A1817; --paper:#221F1D; --ink:#EDE5DC; --muted:#A89E94; --rule:#38312C;
-  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; --wash:#5A3027; color-scheme:dark}
-
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
+  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; --wash:#5A3027;
+  --paper-tex:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.84 0.110 0 0 0 -0.036'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.03' numOctaves='4' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.84 0.605 0 0 0 -0.330'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1024' height='1024'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.003' numOctaves='4' seed='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.84 0.110 0 0 0 -0.033'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; --wash:#5A3027;
+  --paper-tex:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.84 0.110 0 0 0 -0.036'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.03' numOctaves='4' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.84 0.605 0 0 0 -0.330'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"), url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1024' height='1024'><filter id='f' x='0' y='0'><feTurbulence type='fractalNoise' baseFrequency='.003' numOctaves='4' seed='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.84 0.110 0 0 0 -0.033'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{max-width:1120px;margin:0 auto;padding-block:40px 80px;display:flex;flex-direction:column;gap:48px}
 a{color:var(--accent);text-underline-offset:3px}
