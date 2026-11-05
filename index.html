@@ -48,6 +48,25 @@ p{margin:0}
 .mast nav a{font:500 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none}
 .mast nav a[aria-current]{color:var(--accent);text-decoration:underline}
 
+/* news ticker */
+.ticker{display:flex;align-items:stretch;background:var(--ink);color:var(--bg);border-radius:3px;overflow:hidden;min-width:0}
+.ticker-tag{flex:none;display:flex;align-items:center;padding:0 14px;background:var(--mark);color:var(--ink);font:500 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.ticker-view{flex:1;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 40px),transparent)}
+.ticker-track{display:flex;width:max-content;animation:tick var(--dur,40s) linear infinite}
+.ticker:hover .ticker-track,.ticker:focus-within .ticker-track{animation-play-state:paused}
+.ticker-seq{display:flex;align-items:center;gap:14px;padding:11px 14px 11px 18px;white-space:nowrap}
+.ticker a{color:inherit;font-weight:600;text-decoration:none}
+.ticker a:hover{text-decoration:underline}
+.ticker a:focus-visible{outline-color:var(--mark)}
+.ticker .src{font:400 .78rem var(--mono);letter-spacing:.04em;opacity:.7}
+.ticker .sep{color:var(--mark);padding:0 6px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .ticker-track{animation:none}
+  .ticker-view{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+  .ticker-seq[aria-hidden]{display:none}
+}
+
 .hero{display:flex;flex-direction:column;gap:18px}
 .hero .lede{font-size:1.12rem;max-width:68ch;color:var(--muted)}
 .hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--mark) 62%)}
@@ -139,11 +158,9 @@ footer{border-top:1px solid var(--rule);padding-top:16px;color:var(--muted);font
 /* What I'm Reading This Week: up to three links */
 const READING = {
   week: "Nov 2, 2026",
-  sample: true,
   items: [
-    {title:"Sample article title", source:"Publication name", url:"#", note:"One line on why I picked it."},
-    {title:"Another sample article", source:"Publication name", url:"#", note:""},
-    {title:"A third sample read", source:"Publication name", url:"#", note:""}
+    {title:"Silicon Valley Is Bracing for a Permanent Underclass", source:"The New York Times", url:"https://www.nytimes.com/2026/04/30/opinion/ai-labor-work-force-silicon-valley.html", note:""},
+    {title:"Surviving Involution", source:"Rob L'Heureux · Happy Future", url:"https://roblh.substack.com/p/surviving-involution", note:""}
   ]
 };
 
@@ -245,8 +262,21 @@ function tallyCol(){
   </section>`;
 }
 
+function ticker(){
+  const items = READING.items.slice(0,3);
+  if(!items.length) return '';
+  const seq = hidden => `<div class="ticker-seq"${hidden?' aria-hidden="true"':''}>${items.map(r=>
+    `<a href="${esc(safeUrl(r.url))}" target="_blank" rel="noopener"${hidden?' tabindex="-1"':''}>${esc(r.title)}</a><span class="src">${esc(r.source)}</span><span class="sep" aria-hidden="true">◆</span>`).join('')}</div>`;
+  const chars = items.reduce((n,r)=>n+r.title.length+r.source.length,0);
+  const dur = Math.max(20, Math.round(chars*0.32));
+  return `<div class="ticker" role="region" aria-label="What I'm reading this week">
+    <span class="ticker-tag">Now reading</span>
+    <div class="ticker-view"><div class="ticker-track" style="--dur:${dur}s">${seq(false)}${seq(true)}${seq(true)}${seq(true)}</div></div>
+  </div>`;
+}
+
 function home(){
-  return `<section class="hero">
+  return `${ticker()}<section class="hero">
     <h1>wherever <em>curiosity</em> leads</h1>
     <p class="lede">When I graduated college, I remember celebrating the end, ready to never have to write an essay, stress over an exam, or lose sleep over some group project ever again. Now, years later, I find myself reminiscing on what it was like to constantly be learning, reflecting, and questioning. Hence my personal curriculum was born. My special interests lie within technology, film, and China-US relations.</p>
   </section>
