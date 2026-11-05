@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Daisy's Open Syllabus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 body{margin:0}
 /* Layout: a university course catalog — catalog rows on the home page, a syllabus per course, essays set like a journal */
 :root{
   --bg:#F3F5F2; --paper:#FBFCFA; --ink:#18212B; --muted:#5C6A66; --rule:#D6DDD8;
   --accent:#2E5E4E; --accent-soft:#E1ECE6; --mark:#F2D95C;
-  --display:"Young Serif", Georgia, serif;
+  --display:"Schibsted Grotesk", "Public Sans", system-ui, sans-serif;
   --body:"Public Sans", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, monospace;
 }
@@ -29,7 +29,7 @@ body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
 .wrap{max-width:880px;margin:0 auto;padding-block:40px 80px;display:flex;flex-direction:column;gap:48px}
 a{color:var(--accent);text-underline-offset:3px}
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
-h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-0.015em;text-wrap:balance;margin:0;line-height:1.15}
 h1{font-size:clamp(2.2rem,6vw,3.4rem)}
 h2{font-size:1.6rem}
 h3{font-size:1.2rem}
