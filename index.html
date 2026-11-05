@@ -8,20 +8,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 body{margin:0}
-/* Layout: full-width intro, then three ruled columns (reading · learning · tally) like a college bulletin board; stacks on phones */
+/* Palette: Chinese ink-wash painting (rice paper, teal mountain wash, ink, vermilion sun). Layout: full-width intro, then three ruled columns (reading · learning · tally) like a college bulletin board; stacks on phones */
 :root{
-  --bg:#F3F5F2; --paper:#FBFCFA; --ink:#18212B; --muted:#5C6A66; --rule:#D6DDD8;
-  --accent:#2E5E4E; --accent-soft:#E1ECE6; --mark:#F2D95C;
+  --bg:#F2EBE3; --paper:#F8F4EF; --ink:#211D1A; --muted:#6E655D; --rule:#DED3C8;
+  --accent:#276F6C; --accent-soft:#D9E7E3; --mark:#E2462C;
   --display:"Schibsted Grotesk", "Public Sans", system-ui, sans-serif;
   --body:"Public Sans", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#121816; --paper:#18201D; --ink:#E6ECE8; --muted:#97A6A0; --rule:#2B3631;
-  --accent:#86C2A8; --accent-soft:#1F3029; --mark:#8C7A22; color-scheme:dark}}
+  --bg:#1A1817; --paper:#221F1D; --ink:#EDE5DC; --muted:#A89E94; --rule:#38312C;
+  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#121816; --paper:#18201D; --ink:#E6ECE8; --muted:#97A6A0; --rule:#2B3631;
-  --accent:#86C2A8; --accent-soft:#1F3029; --mark:#8C7A22; color-scheme:dark}
+  --bg:#1A1817; --paper:#221F1D; --ink:#EDE5DC; --muted:#A89E94; --rule:#38312C;
+  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
@@ -50,7 +50,7 @@ p{margin:0}
 
 /* news ticker */
 .ticker{display:flex;align-items:stretch;background:var(--ink);color:var(--bg);border-radius:3px;overflow:hidden;min-width:0}
-.ticker-tag{flex:none;display:flex;align-items:center;padding:0 14px;background:var(--mark);color:var(--ink);font:500 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.ticker-tag{flex:none;display:flex;align-items:center;padding:0 14px;background:var(--mark);color:var(--paper);font:500 .72rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
 .ticker-view{flex:1;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 40px),transparent)}
 .ticker-track{display:flex;width:max-content;animation:tick var(--dur,40s) linear infinite}
 .ticker:hover .ticker-track,.ticker:focus-within .ticker-track{animation-play-state:paused}
