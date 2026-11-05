@@ -11,17 +11,17 @@ body{margin:0}
 /* Palette: Chinese ink-wash painting (rice paper, teal mountain wash, ink, vermilion sun). Layout: full-width intro, then three ruled columns (reading · learning · tally) like a college bulletin board; stacks on phones */
 :root{
   --bg:#F2EBE3; --paper:#F8F4EF; --ink:#211D1A; --muted:#6E655D; --rule:#DED3C8;
-  --accent:#276F6C; --accent-soft:#D9E7E3; --mark:#E2462C;
+  --accent:#276F6C; --accent-soft:#D9E7E3; --mark:#E2462C; --wash:#EFC8BA;
   --display:"Schibsted Grotesk", "Public Sans", system-ui, sans-serif;
   --body:"Public Sans", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1A1817; --paper:#221F1D; --ink:#EDE5DC; --muted:#A89E94; --rule:#38312C;
-  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; color-scheme:dark}}
+  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; --wash:#5A3027; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1A1817; --paper:#221F1D; --ink:#EDE5DC; --muted:#A89E94; --rule:#38312C;
-  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; color-scheme:dark}
+  --accent:#7CC3BD; --accent-soft:#22332F; --mark:#E0553A; --wash:#5A3027; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
@@ -69,7 +69,7 @@ p{margin:0}
 
 .hero{display:flex;flex-direction:column;gap:18px}
 .hero .lede{font-size:1.12rem;max-width:68ch;color:var(--muted)}
-.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--mark) 62%)}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--wash) 58%)}
 
 /* three columns */
 .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid var(--ink)}
