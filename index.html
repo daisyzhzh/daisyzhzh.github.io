@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 body{margin:0}
-/* Layout: a university course catalog — catalog rows on the home page, a syllabus per course, essays set like a journal */
+/* Layout: full-width intro, then three ruled columns (reading · learning · tally) like a college bulletin board; stacks on phones */
 :root{
   --bg:#F3F5F2; --paper:#FBFCFA; --ink:#18212B; --muted:#5C6A66; --rule:#D6DDD8;
   --accent:#2E5E4E; --accent-soft:#E1ECE6; --mark:#F2D95C;
@@ -26,80 +26,95 @@ body{margin:0}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:880px;margin:0 auto;padding-block:40px 80px;display:flex;flex-direction:column;gap:48px}
+.wrap{max-width:1120px;margin:0 auto;padding-block:40px 80px;display:flex;flex-direction:column;gap:48px}
 a{color:var(--accent);text-underline-offset:3px}
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-0.015em;text-wrap:balance;margin:0;line-height:1.15}
 h1{font-size:clamp(2.2rem,6vw,3.4rem)}
-h2{font-size:1.6rem}
-h3{font-size:1.2rem}
+h2{font-size:1.5rem}
+h3{font-size:1.15rem}
 p{margin:0}
-.label{font:500 .72rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.code{font:500 .85rem/1 var(--mono);color:var(--accent);font-variant-numeric:tabular-nums}
+.label{font:500 .72rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.code{font:500 .85rem/1.2 var(--mono);color:var(--accent);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.sample{font:500 .66rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--muted);padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.more{font:500 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.stack{display:flex;flex-direction:column;gap:44px}
 
 /* masthead */
 .mast{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:14px}
-.mast a{text-decoration:none;color:var(--ink);font-family:var(--display);font-size:1.15rem}
+.mast a.name{text-decoration:none;color:var(--ink);font-family:var(--display);font-weight:700;font-size:1.15rem}
 .mast nav{display:flex;gap:20px}
-.mast nav a{font:500 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.mast nav a[aria-current]{color:var(--accent)}
+.mast nav a{font:500 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.mast nav a[aria-current]{color:var(--accent);text-decoration:underline}
 
 .hero{display:flex;flex-direction:column;gap:18px}
-.hero p.lede{font-size:1.15rem;max-width:58ch;color:var(--muted)}
+.hero .lede{font-size:1.12rem;max-width:68ch;color:var(--muted)}
 .hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--mark) 62%)}
-.term{display:flex;gap:28px;flex-wrap:wrap}
-.term div{display:flex;flex-direction:column;gap:4px}
-.term strong{font:500 1.05rem var(--mono);font-variant-numeric:tabular-nums}
 
-/* catalog */
-.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
-.catalog{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
-.catalog li{border-bottom:1px solid var(--rule)}
-.catalog a{display:grid;grid-template-columns:96px 1fr auto;gap:6px 20px;padding:18px 4px;text-decoration:none;color:var(--ink);align-items:baseline}
-.catalog a:hover{background:var(--paper)}
-.catalog .t{font-family:var(--display);font-size:1.25rem}
-.catalog .d{grid-column:2/3;color:var(--muted);font-size:.95rem;min-width:0}
-.status{font:500 .7rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:3px;border:1px solid var(--rule);white-space:nowrap;color:var(--muted)}
-.status.active{background:var(--accent);border-color:var(--accent);color:var(--paper)}
-.status.next{border-style:dashed}
-.sample{font:500 .68rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--muted);padding:2px 6px;border-radius:3px;margin-left:8px;vertical-align:middle}
-@media (max-width:560px){
-  .catalog a{grid-template-columns:1fr auto}
-  .catalog .code{grid-column:1/2}
-  .catalog .t,.catalog .d{grid-column:1/3}
+/* three columns */
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid var(--ink)}
+.col{display:flex;flex-direction:column;gap:18px;padding:22px 28px 8px;min-width:0}
+.col:first-child{padding-left:0}
+.col:last-child{padding-right:0}
+.col + .col{border-left:1px solid var(--rule)}
+.col-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+@media (max-width:860px){
+  .board{grid-template-columns:1fr}
+  .col{padding:24px 0}
+  .col + .col{border-left:0;border-top:1px solid var(--rule)}
 }
 
-/* reflections list */
-.essays{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.essay-card{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink)}
-.essay-card:hover{border-color:var(--accent)}
-.essay-card p{color:var(--muted);font-size:.95rem}
+/* reading */
+.reads{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.reads li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.reads .arrow{color:var(--accent);font-family:var(--mono)}
+.reads a.t{font-weight:600;color:var(--ink);text-decoration-color:var(--rule)}
+.reads a.t:hover{text-decoration-color:var(--accent)}
+.reads .src{display:block;margin-top:2px}
+.reads .note{font-size:.92rem;color:var(--muted);margin-top:4px}
 
-/* syllabus */
+/* learning */
+.topic h3{font-size:1.4rem}
+.bar{height:8px;background:var(--accent-soft);border-radius:4px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--accent);border-radius:4px}
+
+/* tally */
+.count{display:flex;flex-direction:column;gap:2px}
+.count strong{font:600 3rem/1 var(--display);letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+.count strong.pending{color:var(--muted);font-size:2rem}
+.posters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.posters a,.posters span{aspect-ratio:2/3;max-width:100%;border-radius:3px;overflow:hidden;background:var(--accent-soft);border:1px solid var(--rule);display:block}
+.posters img{width:100%;height:100%;object-fit:cover;display:block}
+.tally-sep{border:0;border-top:1px solid var(--rule);margin:4px 0}
+
+/* syllabus page */
 .syl-head{display:flex;flex-direction:column;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:22px}
-.syl-head p{max-width:62ch;color:var(--muted);font-size:1.08rem}
-.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.syl-head p{max-width:64ch;color:var(--muted);font-size:1.08rem}
+.meta{display:flex;flex-wrap:wrap;gap:16px 40px}
 .meta div{display:flex;flex-direction:column;gap:4px}
-.why{border-left:3px solid var(--mark);padding:4px 0 4px 18px;max-width:62ch}
-.units{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
-.unit{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--rule)}
+.why{border-left:3px solid var(--mark);padding:4px 0 4px 18px;max-width:64ch}
+.units{display:flex;flex-direction:column;border-top:1px solid var(--rule);max-width:820px}
+.unit{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--rule)}
 .unit > div{min-width:0;display:flex;flex-direction:column;gap:10px}
 .unit ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
 .unit li{display:grid;grid-template-columns:20px 1fr;gap:8px;font-size:.96rem}
 .unit li .box{font-family:var(--mono);color:var(--accent)}
-.unit li.done span:last-child{color:var(--muted);text-decoration:line-through}
+.unit li.done > span:last-child{color:var(--muted)}
 @media (max-width:560px){.unit{grid-template-columns:1fr;gap:6px}}
 
-/* essay */
+/* archive */
+.list{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink);max-width:820px}
+.list li{border-bottom:1px solid var(--rule)}
+.list a{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 4px;text-decoration:none;color:var(--ink)}
+.list a:hover{background:var(--paper)}
+.empty{color:var(--muted);padding:16px 0;border-bottom:1px solid var(--rule)}
+
 article{display:flex;flex-direction:column;gap:22px;max-width:66ch}
 article .prose{display:flex;flex-direction:column;gap:18px;font-size:1.08rem;line-height:1.75}
-article .prose h3{margin-top:10px}
-article blockquote{margin:0;padding-left:18px;border-left:3px solid var(--accent);font-family:var(--display);font-size:1.2rem;color:var(--ink)}
-.prompt{background:var(--accent-soft);border-radius:4px;padding:16px 18px;font-size:.98rem}
 
-.back{font:500 .8rem var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
 footer{border-top:1px solid var(--rule);padding-top:16px;color:var(--muted);font-size:.85rem}
-@media (prefers-reduced-motion:no-preference){main>*{animation:rise .35s ease both}}
+@media (prefers-reduced-motion:no-preference){#view>*{animation:rise .35s ease both}}
 @keyframes rise{from{transform:translateY(6px)}to{transform:none}}
 </style>
 </head>
@@ -107,92 +122,127 @@ footer{border-top:1px solid var(--rule);padding-top:16px;color:var(--muted);font
 
 <div class="wrap">
   <header class="mast">
-    <a href="#home">Daisy College</a>
+    <a class="name" href="#home">Daisy College</a>
     <nav aria-label="Sections">
-      <a href="#home" data-nav="home">Catalog</a>
-      <a href="#reflections" data-nav="reflections">Reflections</a>
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#archive" data-nav="archive">Archive</a>
       <a href="#about" data-nav="about">About</a>
     </nav>
   </header>
   <main id="view"></main>
-  <footer>An independent curriculum, kept in public. Last updated November 2026.</footer>
+  <footer>An independent curriculum, kept in public.</footer>
 </div>
 
 <script>
-/* ---------- CONTENT: edit everything here ---------- */
-const TERM = {name:"Winter 2026–27", courses:3, hoursGoal:"5 hrs / week"};
+/* ================= CONTENT: edit everything here ================= */
 
-const COURSES = [
-  {
-    id:"mandarin", code:"MAND 210", title:"Reading Mandarin",
-    status:"active", sample:false,
-    blurb:"Moving from conversation to reading: getting comfortable with real Chinese-language text.",
-    why:"I can hold a conversation with my tutor, but reading is where I fall behind. I want to read signs, menus and short articles without reaching for a dictionary every line.",
-    meta:{Format:"Weekly tutor sessions + self-study", Started:"2026", Load:"3 hrs / week"},
-    units:[
-      {n:"Unit 1", title:"Speaking & listening upkeep", desc:"Keep the spoken foundation strong while the focus shifts to reading.",
-        items:[{t:"Weekly conversation session with tutor",done:true},{t:"Keep a running list of new vocabulary from sessions",done:false}]},
-      {n:"Unit 2", title:"A structured reading course", desc:"Find a reading-focused course in a format I like and work through it.",
-        items:[{t:"Shortlist reading courses",done:false},{t:"Request learning & development funding",done:false},{t:"Complete first module",done:false}]},
-      {n:"Unit 3", title:"Reading in the wild", desc:"Apply it to Chinese-language material I'd actually choose to read.",
-        items:[{t:"One graded reader",done:false},{t:"A short article each week",done:false},{t:"Write a reflection on what got easier",done:false}]}
-    ]
-  },
-  {
-    id:"philosophy", code:"PHIL 101", title:"Introduction to Ethics",
-    status:"next", sample:true,
-    blurb:"Sample course. Replace with your own: how should I live, and how would I know?",
-    why:"Sample text. Write a few sentences about why this topic pulls at you.",
-    meta:{Format:"Reading + written responses", Started:"Not yet", Load:"2 hrs / week"},
-    units:[
-      {n:"Week 1–2", title:"Ancient answers", desc:"Sample unit.", items:[{t:"Aristotle, Nicomachean Ethics (Books I–II)",done:false},{t:"Epictetus, Enchiridion",done:false}]},
-      {n:"Week 3–4", title:"Duty and consequences", desc:"Sample unit.", items:[{t:"Kant, Groundwork (selections)",done:false},{t:"Mill, Utilitarianism",done:false}]}
-    ]
-  },
-  {
-    id:"history", code:"HIST 150", title:"A History of Cities",
-    status:"planned", sample:true,
-    blurb:"Sample course. Replace with your own: how cities are built, and what they do to the people in them.",
-    why:"Sample text.",
-    meta:{Format:"Books + walking notes", Started:"Not yet", Load:"2 hrs / week"},
-    units:[
-      {n:"Part I", title:"Foundations", desc:"Sample unit.", items:[{t:"Jacobs, The Death and Life of Great American Cities",done:false}]}
-    ]
-  }
-];
+/* What I'm Reading This Week: up to three links */
+const READING = {
+  week: "Nov 2, 2026",
+  sample: true,
+  items: [
+    {title:"Sample article title", source:"Publication name", url:"#", note:"One line on why I picked it."},
+    {title:"Another sample article", source:"Publication name", url:"#", note:""},
+    {title:"A third sample read", source:"Publication name", url:"#", note:""}
+  ]
+};
 
-const REFLECTIONS = [
-  {
-    id:"template", course:"mandarin", date:"Draft", sample:true,
-    title:"What I Notice When I Read Slowly",
-    dek:"A template for your first deep dive. Replace the prompts with your own writing.",
-    body:[
-      ["p","Open with the moment that made you want to write this: a sentence you finally understood, an idea that changed how you see something, or a question you can't put down."],
-      ["h","What I expected"],
-      ["p","Describe what you thought this topic would be like before you started."],
-      ["h","What actually happened"],
-      ["p","The surprises, the hard parts, and the parts that clicked."],
-      ["q","Pull out one line, yours or a source's, that sums up the shift."],
-      ["h","What I'm carrying forward"],
-      ["p","How this changes what you read or study next."]
-    ]
-  }
-];
-/* ---------- END CONTENT ---------- */
+/* What I'm Learning: one current topic */
+const CURRENT = {
+  id:"china-us", code:"CUS 101", title:"China–US Relations", sample:true,
+  why:"Sample text. A sentence or two on why this topic, and why now.",
+  started:"Nov 2026",
+  units:[
+    {n:"Unit 1", title:"The long view", desc:"Sample unit: how the relationship got here.",
+      items:[{t:"Henry Kissinger, On China",done:false}]},
+    {n:"Unit 2", title:"Rivalry and its risks", desc:"Sample unit.",
+      items:[{t:"Graham Allison, Destined for War",done:false},{t:"Rush Doshi, The Long Game",done:false}]},
+    {n:"Unit 3", title:"Technology and trade", desc:"Sample unit.",
+      items:[{t:"Chris Miller, Chip War",done:false}]}
+  ]
+};
+
+/* Finished topics move here, newest first. Same shape as CURRENT, plus finished:"Mon YYYY" */
+const ARCHIVE = [];
+
+/* Past weekly reading lists move here, newest first */
+const PAST_READING = [];
+
+/* Books: update by hand */
+const BOOKS = { year:2027, startsOn:"Jan 1, 2027", titles:[] };
+
+/* Films: filled automatically from films.json (Letterboxd) once connected */
+const LETTERBOXD_USER = "";
+
+/* ================= END CONTENT ================= */
 
 const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const statusLabel = {active:"In progress", next:"Up next", planned:"Planned", done:"Completed"};
-const course = id => COURSES.find(c=>c.id===id);
-const sampleTag = x => x.sample ? '<span class="sample">Sample</span>' : '';
+const esc = s => String(s ?? "").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sampleTag = x => x && x.sample ? '<span class="sample">Sample</span>' : '';
+const safeUrl = u => /^https?:\/\//i.test(u||"") ? u : "#";
+let FILMS = null;
 
-function essayCards(list){
-  if(!list.length) return '<p class="label">No reflections yet.</p>';
-  return '<div class="essays">'+list.map(r=>{
-    const c=course(r.course);
-    return `<a class="essay-card" href="#essay-${r.id}">
-      <span class="label">${esc(c?c.code:"")} · ${esc(r.date)}</span>
-      <h3>${esc(r.title)}${sampleTag(r)}</h3><p>${esc(r.dek)}</p></a>`;}).join('')+'</div>';
+function progress(t){
+  const items = t.units.flatMap(u=>u.items);
+  const done = items.filter(i=>i.done).length;
+  let idx = t.units.findIndex(u=>u.items.some(i=>!i.done));
+  if(idx<0) idx = t.units.length-1;
+  return {pct: items.length ? Math.round(done/items.length*100) : 0, done, total:items.length, idx};
+}
+
+function readingCol(){
+  const items = READING.items.slice(0,3);
+  return `<section class="col" aria-labelledby="h-read">
+    <div class="col-head"><h2 id="h-read">Reading this week</h2></div>
+    <span class="label">Week of ${esc(READING.week)}${sampleTag(READING)}</span>
+    ${items.length ? `<ul class="reads">${items.map(r=>`<li>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div><a class="t" href="${esc(safeUrl(r.url))}" target="_blank" rel="noopener">${esc(r.title)}</a>
+      <span class="src label">${esc(r.source)}</span>
+      ${r.note?`<p class="note">${esc(r.note)}</p>`:''}</div></li>`).join('')}</ul>`
+    : '<p class="muted">Nothing on the list this week.</p>'}
+  </section>`;
+}
+
+function learningCol(){
+  const t = CURRENT, p = progress(t), u = t.units[p.idx];
+  return `<section class="col topic" aria-labelledby="h-learn">
+    <div class="col-head"><h2 id="h-learn">What I'm learning</h2></div>
+    <span class="code">${esc(t.code)} · since ${esc(t.started)}${sampleTag(t)}</span>
+    <h3>${esc(t.title)}</h3>
+    <p class="muted">${esc(t.why)}</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="label">Unit ${p.idx+1} of ${t.units.length} · ${esc(u.title)}</span>
+      <div class="bar" role="img" aria-label="${p.pct}% of readings done"><span style="width:${p.pct}%"></span></div>
+      <span class="label">${p.done} of ${p.total} readings done</span>
+    </div>
+    <a class="more" href="#syllabus">View syllabus →</a>
+  </section>`;
+}
+
+function filmsBlock(){
+  const yr = new Date().getFullYear();
+  if(!FILMS){
+    return `<div class="count"><span class="label">Films watched · ${yr}</span>
+      <strong class="pending">—</strong>
+      <span class="label">${LETTERBOXD_USER ? 'Updating from Letterboxd' : 'Connects to Letterboxd soon'}</span></div>`;
+  }
+  const recent = (FILMS.recent||[]).slice(0,4);
+  return `<div class="count"><span class="label">Films watched · ${esc(FILMS.year)}</span>
+      <strong>${esc(FILMS.count)}</strong>
+      ${LETTERBOXD_USER?`<a class="label" href="https://letterboxd.com/${esc(LETTERBOXD_USER)}/" target="_blank" rel="noopener">via Letterboxd</a>`:''}</div>
+    ${recent.length?`<div class="posters">${recent.map(f=>`<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener" title="${esc(f.title)}">${f.poster?`<img src="${esc(safeUrl(f.poster))}" alt="${esc(f.title)}" loading="lazy">`:''}</a>`).join('')}</div>`:''}`;
+}
+
+function tallyCol(){
+  const started = new Date() >= new Date(BOOKS.year,0,1);
+  return `<section class="col" aria-labelledby="h-tally">
+    <div class="col-head"><h2 id="h-tally">The tally</h2></div>
+    <div class="count"><span class="label">Books read · ${esc(BOOKS.year)}</span>
+      ${started ? `<strong>${BOOKS.titles.length}</strong>` : `<strong class="pending">0</strong><span class="label">Counting starts ${esc(BOOKS.startsOn)}</span>`}</div>
+    <hr class="tally-sep">
+    <div id="films">${filmsBlock()}</div>
+  </section>`;
 }
 
 function home(){
@@ -200,68 +250,60 @@ function home(){
     <h1>wherever <em>curiosity</em> leads</h1>
     <p class="lede">When I graduated college, I remember celebrating the end, ready to never have to write an essay, stress over an exam, or lose sleep over some group project ever again. Now, years later, I find myself reminiscing on what it was like to constantly be learning, reflecting, and questioning. Hence my personal curriculum was born. My special interests lie within technology, film, and China-US relations.</p>
   </section>
-  <section>
-    <div class="section-head"><h2>Course catalog</h2><span class="label">Select a course for its syllabus</span></div>
-    <ul class="catalog">${COURSES.map(c=>`<li><a href="#course-${c.id}">
-      <span class="code">${esc(c.code)}</span>
-      <span class="t">${esc(c.title)}${sampleTag(c)}</span>
-      <span class="status ${c.status}">${statusLabel[c.status]}</span>
-      <span class="d">${esc(c.blurb)}</span></a></li>`).join('')}</ul>
-  </section>
-  <section>
-    <div class="section-head"><h2>Latest reflections</h2><a class="back" href="#reflections">All reflections →</a></div>
-    ${essayCards(REFLECTIONS.slice(0,3))}
-  </section>`;
+  <div class="board">${readingCol()}${learningCol()}${tallyCol()}</div>`;
 }
 
-function syllabus(c){
-  const refl = REFLECTIONS.filter(r=>r.course===c.id);
-  return `<a class="back" href="#home">← Catalog</a>
+function syllabus(t, back){
+  const dates = t.finished ? `${esc(t.started)} – ${esc(t.finished)}` : `Since ${esc(t.started)}`;
+  return `<a class="more" href="${back}">← ${back==="#archive"?"Archive":"Home"}</a>
   <section class="syl-head">
-    <span class="code">${esc(c.code)} · <span class="status ${c.status}">${statusLabel[c.status]}</span>${sampleTag(c)}</span>
-    <h1>${esc(c.title)}</h1>
-    <p>${esc(c.blurb)}</p>
-    <div class="meta">${Object.entries(c.meta).map(([k,v])=>`<div><span class="label">${esc(k)}</span><span>${esc(v)}</span></div>`).join('')}</div>
+    <span class="code">${esc(t.code)}${sampleTag(t)}</span>
+    <h1>${esc(t.title)}</h1>
+    <div class="meta">
+      <div><span class="label">Dates</span><span>${dates}</span></div>
+      <div><span class="label">Status</span><span>${t.finished?"Completed":"In progress"}</span></div>
+      <div><span class="label">Units</span><span>${t.units.length}</span></div>
+    </div>
   </section>
   <section style="display:flex;flex-direction:column;gap:12px">
-    <span class="label">Why I'm taking this</span>
-    <p class="why">${esc(c.why)}</p>
+    <span class="label">Why I'm learning this</span>
+    <p class="why">${esc(t.why)}</p>
   </section>
-  <section>
-    <div class="section-head"><h2>Syllabus</h2></div>
-    <div class="units">${c.units.map(u=>`<div class="unit">
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Syllabus</h2>
+    <div class="units">${t.units.map(u=>`<div class="unit">
       <span class="code">${esc(u.n)}</span>
-      <div><h3>${esc(u.title)}</h3><p style="color:var(--muted)">${esc(u.desc)}</p>
-      <ul>${u.items.map(i=>`<li class="${i.done?'done':''}"><span class="box" aria-hidden="true">${i.done?'■':'□'}</span><span>${esc(i.t)}${i.done?' <span class="label">· done</span>':''}</span></li>`).join('')}</ul></div>
+      <div><h3>${esc(u.title)}</h3>${u.desc?`<p class="muted">${esc(u.desc)}</p>`:''}
+      <ul>${u.items.map(i=>`<li class="${i.done?'done':''}"><span class="box" aria-hidden="true">${i.done?'■':'□'}</span><span>${i.url?`<a href="${esc(safeUrl(i.url))}" target="_blank" rel="noopener">${esc(i.t)}</a>`:esc(i.t)}${i.done?' <span class="label">· done</span>':''}</span></li>`).join('')}</ul></div>
     </div>`).join('')}</div>
   </section>
-  <section><div class="section-head"><h2>Reflections from this course</h2></div>${essayCards(refl)}</section>`;
+  ${t.reflection?`<article><span class="label">Final reflection</span><div class="prose">${t.reflection.map(p=>`<p>${esc(p)}</p>`).join('')}</div></article>`:''}`;
 }
 
-function essay(r){
-  const c=course(r.course);
-  const body = r.body.map(([k,t])=> k==="h"?`<h3>${esc(t)}</h3>`: k==="q"?`<blockquote>${esc(t)}</blockquote>`:`<p>${esc(t)}</p>`).join('');
-  return `<a class="back" href="#reflections">← Reflections</a>
-  <article>
-    <span class="label">${c?`<a href="#course-${c.id}">${esc(c.code)} ${esc(c.title)}</a>`:''} · ${esc(r.date)}${sampleTag(r)}</span>
-    <h1>${esc(r.title)}</h1>
-    <p style="font-size:1.15rem;color:var(--muted)">${esc(r.dek)}</p>
-    ${r.sample?'<p class="prompt">This is a writing template. Each paragraph is a prompt to replace with your own reflection.</p>':''}
-    <div class="prose">${body}</div>
-  </article>`;
-}
-
-function reflections(){
-  return `<section class="hero"><span class="label">Deep dives</span><h1>Reflections</h1>
-    <p class="lede">Longer writing on what I've learned, what surprised me, and what I'm still working out.</p></section>
-    ${essayCards(REFLECTIONS)}`;
+function archive(){
+  return `<section class="hero"><h1>Archive</h1>
+    <p class="lede">Topics I've finished, and what I was reading along the way.</p></section>
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Finished topics</h2>
+    ${ARCHIVE.length ? `<ul class="list">${ARCHIVE.map(t=>`<li><a href="#topic-${esc(t.id)}">
+      <span><span class="code">${esc(t.code)}</span>&nbsp;&nbsp;${esc(t.title)}</span>
+      <span class="label">${esc(t.started)} – ${esc(t.finished)}</span></a></li>`).join('')}</ul>`
+      : `<p class="empty" style="border-top:2px solid var(--ink)">The first topic lands here once ${esc(CURRENT.title)} is finished.</p>`}
+  </section>
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Past reading</h2>
+    ${PAST_READING.length ? PAST_READING.map(w=>`<div style="display:flex;flex-direction:column;gap:8px;max-width:820px">
+      <span class="label">Week of ${esc(w.week)}</span>
+      <ul class="reads">${w.items.map(r=>`<li><span class="arrow" aria-hidden="true">→</span><div><a class="t" href="${esc(safeUrl(r.url))}" target="_blank" rel="noopener">${esc(r.title)}</a><span class="src label">${esc(r.source)}</span></div></li>`).join('')}</ul></div>`).join('')
+      : `<p class="empty" style="border-top:2px solid var(--ink)">Each week's reading list moves here when the next one goes up.</p>`}
+  </section>`;
 }
 
 function about(){
   return `<article><span class="label">About</span><h1>Why Daisy College</h1>
   <div class="prose">
     <p>School decided what I studied for a long time. This is the opposite: a curriculum built around what I'm actually curious about, at whatever pace real life allows.</p>
-    <p>Each course has a reason for being here, a reading list, and a place to check things off. When something sticks, I write about it.</p>
+    <p>I study one topic at a time, with a syllabus, a reading list, and a place to check things off. When a topic is done, it goes in the archive.</p>
     <p>I'm Daisy. I live in New York and build data and mapping tools by day.</p>
   </div></article>`;
 }
@@ -269,17 +311,21 @@ function about(){
 function render(){
   const h = (location.hash||"#home").slice(1);
   let html, nav="home";
-  if(h.startsWith("course-") && course(h.slice(7))) html=syllabus(course(h.slice(7)));
-  else if(h.startsWith("essay-") && REFLECTIONS.find(r=>r.id===h.slice(6))){ html=essay(REFLECTIONS.find(r=>r.id===h.slice(6))); nav="reflections"; }
-  else if(h==="reflections"){ html=reflections(); nav="reflections"; }
-  else if(h==="about"){ html=about(); nav="about"; }
-  else html=home();
-  $("#view").innerHTML = `<div style="display:flex;flex-direction:column;gap:44px">${html}</div>`;
+  if(h==="syllabus") html = syllabus(CURRENT,"#home");
+  else if(h.startsWith("topic-") && ARCHIVE.find(t=>t.id===h.slice(6))){ html = syllabus(ARCHIVE.find(t=>t.id===h.slice(6)),"#archive"); nav="archive"; }
+  else if(h==="archive"){ html = archive(); nav="archive"; }
+  else if(h==="about"){ html = about(); nav="about"; }
+  else html = home();
+  $("#view").innerHTML = `<div class="stack">${html}</div>`;
   document.querySelectorAll("[data-nav]").forEach(a=>a.toggleAttribute("aria-current", a.dataset.nav===nav));
   window.scrollTo(0,0);
 }
 addEventListener("hashchange",render);
 render();
+
+fetch("films.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{
+  if(d && typeof d.count==="number"){ FILMS=d; const el=$("#films"); if(el) el.innerHTML=filmsBlock(); }
+}).catch(()=>{});
 </script>
 </body>
 </html>
